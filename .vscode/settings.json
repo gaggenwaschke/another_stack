@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "coroutine": "cpp",
+        "xmemory": "cpp",
+        "ethernet": "cpp",
+        "bit_utilities": "cpp",
+        "algorithm": "cpp",
+        "concepts": "cpp",
+        "memory": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "stack": "cpp",
+        "utility": "cpp",
+        "vector": "cpp",
+        "xtree": "cpp",
+        "random": "cpp",
+        "system_error": "cpp",
+        "thread": "cpp",
+        "type_traits": "cpp",
+        "variant": "cpp",
+        "xstddef": "cpp",
+        "cstddef": "cpp"
+    }
+}

@@ -1,0 +1,25 @@
+
+#pragma once
+
+#include <bit>
+#include <ranges>
+#include <vector>
+
+namespace bit {
+template <typename Candidate>
+concept byte_yielding_range = std::ranges::range<Candidate> &&
+    requires(Candidate candidate) {
+  { *std::ranges::cbegin(candidate) } -> std::convertible_to<std::byte>;
+};
+
+/**
+ * @brief Static cast all given values to std::byte elements of a vector.
+ *
+ * @param values Values that can be casted to std::byte.
+ *
+ * @return std::vector<std::byte>
+ */
+std::vector<std::byte> get_byte_vector(auto... values) {
+  return {static_cast<std::byte>(values)...};
+}
+} // namespace bit

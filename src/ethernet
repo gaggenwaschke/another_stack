@@ -1,0 +1,63 @@
+
+#pragma once
+
+#include <bit_utilities>
+#include <iostream>
+#include <ranges>
+
+namespace ethernet {
+
+constexpr static std::uint_fast8_t address_size{6};
+
+template <typename Range>
+requires(bit::byte_yielding_range<Range>) struct address {
+  // Constructors
+  address(Range raw_data) : raw_data{raw_data} {}
+
+  // Members
+  Range raw_data;
+};
+
+template <typename LeftRange, typename RightRange>
+bool operator==(const address<LeftRange> &left,
+                const address<RightRange> &right) {
+  return std::ranges::equal(left.raw_data, right.raw_data);
+};
+
+template <typename Range>
+requires(bit::byte_yielding_range<Range>) struct reader {
+  reader(Range raw_data) : raw_data{raw_data} {}
+
+  auto destination() const {
+    auto begin = std::ranges::begin(raw_data);
+    auto end = begin + address_size;
+    return address{std::ranges::subrange{begin, end}};
+  }
+  auto source() const {
+    auto begin = std::ranges::begin(raw_data) + address_size;
+    auto end = begin + address_size;
+    return address{std::ranges::subrange{begin, end}};
+  }
+
+  auto payload() const {
+    auto begin = std::ranges::begin(raw_data) + (2 * address_size);
+    auto end = std::ranges::end(raw_data);
+    return std::ranges::subrange{std::ranges::subrange{begin, end}};
+  }
+
+  Range raw_data;
+};
+} // namespace ethernet
+
+template <typename Iterator>
+std::ostream &operator<<(std::ostream &stream,
+                         const ethernet::address<Iterator> &address) {
+  auto iterator = std::ranges::cbegin(address.raw_data);
+  return stream << std::hex << std::setw(2) << std::setfill('0')
+                << static_cast<int>(*iterator++) << ":"
+                << static_cast<int>(*iterator++) << ":"
+                << static_cast<int>(*iterator++) << ":"
+                << static_cast<int>(*iterator++) << ":"
+                << static_cast<int>(*iterator++) << ":"
+                << static_cast<int>(*iterator++);
+}

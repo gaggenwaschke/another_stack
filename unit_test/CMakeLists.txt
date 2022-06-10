@@ -9,7 +9,10 @@ fetchContent_Declare(
 fetchContent_MakeAvailable(Catch2)
 
 add_executable(unit_test 
-    catch_main.cpp)
+    catch_main.cpp
+    ethernet.cpp)
 
 target_link_libraries(unit_test PRIVATE
-        Catch2::Catch2)
+    Catch2::Catch2
+    another_stack)
+    
